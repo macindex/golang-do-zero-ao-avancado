@@ -1,0 +1,254 @@
+/*
+int8        8-bit signed integer (vão de -127 a 127)
+int16       16-bit signed integer 
+int32       32-bit signed integer 
+int64       64-bit signed integer 
+uint8       8-bit unsigned integer 
+uint16      16-bit unsigned integer 
+uint32      32-bit unsigned integer 
+uint64      64-bit unsigned integer
+int Both in and uint contain same size, either 32 or 64 bit. 
+uint Both in and uint contain same size, either 32 or 64 bit.
+
+float32 32-bit IEEE 754 floating-point number
+float64 64-bit IEEE 754 floating-point number 
+
+*/
+
+uint8 não permite valores negativos
+
+Os demais permitem:
+int8
+
+Em Go, o tamanho dos tipos de dados é um conceito crítico, pois a linguagem foi 
+projetada para sistemas de alta performance. Diferente de linguagens como Python, 
+onde você não se preocupa com o consumo de memória de um inteiro, em Go você tem 
+controle granular sobre quantos bytes cada informação ocupa.
+
+Os tipos em Go dividem-se em dois grupos: os de tamanho fixo 
+(independentes da arquitetura) e os de tamanho calculado 
+(que mudam conforme o processador).
+
+1. Tipos Inteiros de Tamanho Fixo
+Estes tipos garantem que o programa se comporte da mesma forma em um microcontrolador 
+de 8 bits ou em um servidor de 64 bits.
+
+Tipo            Tamanho (Bytes)     Tamanho (Bits)          Intervalo (Range)
+int8 / uint8    1 byte              8 bits-128 a 127 /      0 a 255
+int16 / uint16  2 bytes             16 bits                 -32.768 a 32.767 / 0 a 65.535
+int32 / uint32  4 bytes             32 bits                 ~ -2 bilhões a 2 bilhões
+int64 / uint64  8 bytes             64 bits                 Enorme (ideal para timestamps e IDs)
+
+Nota: byte é um apelido (alias) para uint8, e rune é um apelido para int32 
+(usado para representar caracteres Unicode).
+
+2. Tipos Inteiros Dependentes da Arquitetura
+Estes são os tipos mais usados (int e uint). O tamanho deles é determinado pela arquitetura do computador onde o código foi compilado:
+
+Em sistemas 32 bits: int tem 4 bytes (32 bits).
+
+Em sistemas 64 bits: int tem 8 bytes (64 bits).
+
+Também temos o tipo uintptr, que é um tipo inteiro grande o suficiente para 
+armazenar o endereço de memória de qualquer variável.
+
+3. Números de Ponto Flutuante e Complexos
+Go segue o padrão IEEE-754 para números decimais:
+
+float32: 4 bytes. Oferece cerca de 7 dígitos decimais de precisão.
+
+float64: 8 bytes. Oferece cerca de 15 dígitos decimais. É o padrão usado quando você declara x := 1.0.
+
+complex64: 8 bytes (dois float32).
+
+complex128: 16 bytes (dois float64).
+
+4. Tipos Booleanos e Strings
+bool: Ocupa 1 byte. Embora precise apenas de 1 bit (0 ou 1), a menor unidade de endereçamento na maioria das máquinas é o byte.
+
+string: Uma string em Go não armazena os caracteres diretamente na variável. Uma variável string é um "header" (cabeçalho) que ocupa 16 bytes (em sistemas 64 bits). Esses 16 bytes contêm:
+
+Um ponteiro para o local real dos dados (8 bytes).
+
+O comprimento da string (8 bytes).
+
+5. Tipos Compostos (Slices e Maps)
+Slices: Um slice ocupa sempre 24 bytes. Ele contém um ponteiro para o array 
+original (8), o tamanho (len) (8) e a capacidade (cap) (8).
+
+Maps e Channels: São ponteiros para estruturas internas complexas. Na variável, 
+ocupam apenas 8 bytes (o tamanho do endereço de memória).
+
+Como verificar o tamanho no código?
+Você pode usar o pacote unsafe para ver exatamente quanto cada tipo ocupa na sua máquina atual:
+
+package main
+
+import (
+    "fmt"
+    "unsafe"
+)
+
+func main() {
+    var a int
+    var b int32
+    var c string
+    
+    fmt.Printf("int: %d bytes\n", unsafe.Sizeof(a))    // 8 (em 64-bit)
+    fmt.Printf("int32: %d bytes\n", unsafe.Sizeof(b))  // 4
+    fmt.Printf("string: %d bytes\n", unsafe.Sizeof(c)) // 16
+}
+
+Por que isso importa? (Alinhamento de Memória)
+Entender o tamanho é essencial ao criar structs. O processador lê a memória em 
+"palavras" (words). Se você organizar mal os campos de uma struct 
+(ex: intercalar um bool com um int64), o Go inserirá "espaços vazios" 
+(padding) para alinhar os dados, o que pode fazer sua struct ocupar muito mais 
+memória do que o necessário.
+
+----------------------------------------------------------------------------------
+
+CONVERSÃO 
+
+
+func main() {
+    var numero int = 127
+    var numeroInt int 
+    numeroInt = int(numero)
+
+    fimt.Println(numeroInt)
+}
+
+func main() {
+    var numero int = 127
+    var numeroInt8 int8 
+    numeroInt8 = int8(numero)
+
+    fimt.Println(numeroInt8)
+}
+
+func main() {
+    var numero int = 127
+    var numero2 float32 
+    numero2 = float32(numero2)
+
+    fimt.Println(numero2)
+}
+
+func main() {
+    var numero float32 = 127.8
+    var numero2 int 
+    numero2 = int(numero)
+    fimt.Println(numero2)
+    fimt.Println(numero)
+}
+
+STRCONV 
+
+import ("fmt", "strconv")
+
+
+func main() {
+    //b, err := strconv.ParseBool("true") Aqui será apresentado um erro
+    b, _ := strconv.ParseBool("true") 
+    fmt.Printf("%T \n, b")
+    fmt.Println(b)
+
+}
+
+Em Go, a conversão de tipos (conhecida como Type Casting em outras linguagens) é 
+guiada por uma filosofia de segurança e clareza absoluta. Diferente de linguagens 
+como C, Java ou JavaScript, Go não realiza conversão implícita (coerção). 
+Se você tentar somar um inteiro de 32 bits com um de 64 bits, o compilador gerará 
+um erro.
+
+Aqui está uma explicação aprofundada sobre como converter diferentes tipos de dados 
+em Go:
+
+1. Conversão Numérica (Explícita)
+Para converter entre tipos numéricos, você deve envolver a variável com o tipo 
+desejado, como uma função: TipoDesejado(variável).
+
+var i int = 42
+var f float64 = float64(i) // Conversão de int para float64
+var u uint = uint(f)       // Conversão de float64 para uint (perde a parte decimal)
+
+O perigo do Overflow: Ao converter um tipo maior para um menor 
+(ex: int64 para int8), Go não avisa se o valor não couber. 
+O valor irá "dar a volta" (wrap around), resultando em números inesperados.
+
+2. Conversão de Strings e Números (Pacote strconv)
+Você não pode converter um int para string usando string(42), pois isso converteria o número 42 para o caractere correspondente na tabela Unicode (neste caso, o símbolo *). Para converter valores para representação textual, usamos o pacote strconv.
+
+Inteiro para String: strconv.Itoa(i) (Integer to ASCII).
+
+String para Inteiro: strconv.Atoi(s). Esta função retorna dois valores: 
+o resultado e um erro (caso a string não seja um número válido).
+
+texto := "100"
+numero, err := strconv.Atoi(texto)
+if err != nil {
+    fmt.Println("Erro na conversão!")
+}
+
+3. Conversão de Strings e Slices de Bytes
+Em Go, uma string é internamente um slice de bytes ([]byte) somente leitura. 
+Frequentemente precisamos converter entre eles para manipular dados de rede ou 
+arquivos.
+
+s := "Olá"
+b := []byte(s)     // Converte string para slice de bytes
+s2 := string(b)    // Converte de volta para string
+
+Performance: Essa conversão cria uma cópia dos dados na memória para garantir que 
+a string original continue imutável.
+
+4. Asserção de Tipo (Type Assertion)
+Quando trabalhamos com o tipo genérico interface{} (ou any), Go não sabe o que 
+está lá dentro em tempo de compilação. Para "extrair" o valor original, usamos a 
+asserção de tipo.
+
+var i interface{} = "texto"
+
+// Forma direta (perigosa: causa panic se falhar)
+s := i.(string)
+
+// Forma segura (recomendada)
+s, ok := i.(string)
+if ok {
+    fmt.Println("É uma string:", s)
+}
+
+5. Type Switching
+Se você precisar lidar com vários tipos possíveis vindos de uma interface, a forma 
+mais eficiente e limpa é o switch de tipos:
+
+func identificar(i interface{}) {
+    switch v := i.(type) {
+    case int:
+        fmt.Printf("Dobro do int: %d\n", v*2)
+    case string:
+        fmt.Printf("Tamanho da string: %d\n", len(v))
+    default:
+        fmt.Printf("Tipo desconhecido\n")
+    }
+}
+
+6. Ponteiros e o Pacote unsafe
+Em situações extremas de performance ou integração com C, você pode querer converter 
+um ponteiro de um tipo diretamente para outro sem copiar os dados. 
+Isso é feito via unsafe.Pointer.
+
+Atenção: Como o nome diz, isso ignora as proteções de tipo do Go e pode causar 
+travamentos se não for usado com extrema cautela.
+
+Resumo de Regras Práticas
+Não existe promoção automática: int32 + int64 requer conversão manual.
+
+Use strconv para textos: Sempre que envolver números formatados como string.
+
+Sempre verifique o ok: Em asserções de interface para evitar que seu programa "quebre" (panic).
+
+Cuidado com a precisão: Converter float64 para int trunca os valores (remove as casas decimais, não arredonda).
+
+
