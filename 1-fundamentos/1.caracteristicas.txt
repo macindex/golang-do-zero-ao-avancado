@@ -1,0 +1,27 @@
+2009
+Designed by Rob pike, Robert Griesemer, and Ken thompson
+
+O que é:
+
+Open source 
+Tipagem estática
+Suporte a concorrência
+Poderosa biblioteca padrão 
+
+Quais problemas resolve
+Aplicações web
+Front end
+Script de linha de comando 
+Problemas de rede 
+
+Fácil e rápido em desenvolvimento 
+
+Sem máquina virtual 
+Já publica em uma versão de executável e executa mesmo sem ter o go instalado.
+
+. Não centraliza serviço de dependência
+. Adota as melhores fitures para linguagem funcional
+. Tem interfaces implicitas
+. Manipulação de erro direta
+. Capacidade de testes 
+
