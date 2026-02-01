@@ -1,0 +1,114 @@
+Criação e atribuição de variável 
+
+:=
+
+Exemplo:
+
+mensagem := "Teste"
+fmt.Println(mensagem)
+
+Neste caso não precisamos mencionar o var nem o tipo String 
+
+Criar variável com nomes de palavra reservada não é permitido.
+
+
+
+Em Go, variáveis são espaços nomeados na memória para armazenar valores, mas a 
+linguagem trata esse conceito com um rigor que equilibra a segurança das 
+linguagens estáticas (como Java) com a limpeza de linguagens dinâmicas 
+(como Python).
+
+Aqui está um mergulho profundo no funcionamento das variáveis em Go:
+
+1. Declaração e Inicialização
+Go oferece várias formas de declarar variáveis, cada uma com um propósito 
+específico:
+
+Declaração Padrão (var): Pode ser usada em nível de pacote ou dentro de funções.
+
+var nome string = "Gemini"
+
+Inferência de Tipo: Go é inteligente o suficiente para saber o tipo pelo valor 
+atribuído.
+
+Go
+var idade = 25 // Go entende que é um int
+
+Operador de Curto Alcance (:=): A forma mais comum dentro de funções. 
+Ela declara e inicializa ao mesmo tempo.
+
+Go
+versao := 1.2 // Atalho para var versao float64 = 1.2
+
+Regra de Ouro: O operador := não pode ser usado fora de funções 
+(em nível de pacote). Lá, você deve obrigatoriamente usar a palavra-chave var.
+
+2. O Conceito de "Zero Value" (Valor Zero)Diferente de C ou C++, onde uma variável 
+não inicializada pode conter "lixo" da memória, em Go toda variável nasce com um 
+valor padrão bem definido:
+
+Tipo                    Valor Zero
+int, float              0 ou 0.0
+string                   "" (string vazia)
+bool                    false
+pointers, slices, maps  nil
+
+3. Tipagem Forte e Estática
+Go não permite operações entre tipos diferentes sem conversão explícita. Você não pode somar um int com um float64, mesmo que o valor seja "compatível".
+
+Go
+var x int = 10
+var y float64 = 2.5
+// total := x + y // ERRO: tipos incompatíveis
+total := float64(x) + y // CORRETO: conversão explícita
+
+
+4. Escopo e Visibilidade (Regra da Capitalização)
+A visibilidade de uma variável (ou função/struct) em Go é definida pela primeira letra do seu nome:
+
+Letra Minúscula (minhaVar): "Privada" ao pacote. Só pode ser acessada por arquivos dentro da mesma pasta/pacote.
+
+Letra Maiúscula (MinhaVar): "Exportada" (Pública). Pode ser acessada por qualquer outro pacote que importe o seu.
+
+
+5. Alocação: Stack vs Heap (Escape Analysis)
+Este é um tópico avançado. Em Go, você não decide se uma variável vai para a Stack (rápida, memória temporária) ou para o Heap (mais lenta, gerenciada pelo Garbage Collector).
+
+O compilador realiza a Escape Analysis (Análise de Escape):
+
+1. Se a variável é usada apenas dentro da função, ela fica na Stack.
+
+2. Se a função retorna um ponteiro para essa variável, ela "escapa" para o Heap.
+
+6. Ponteiros de Variáveis
+Variáveis em Go são passadas por valor (uma cópia é feita). Para modificar o valor original de uma variável dentro de uma função, usamos ponteiros.
+
+Go
+func dobrar(n *int) {
+    *n = *n * 2 // Desreferencia para alterar o valor na memória
+}
+
+func main() {
+    x := 5
+    dobrar(&x) // Passa o endereço de memória de x
+    fmt.Println(x) // Resultado: 10
+}
+
+testo := "teste"
+
+numero := 10
+metro : 1.5
+eFeminino := true
+
+
+
+var texto string
+var numero int
+var metro float32
+var eFeminino bool 
+
+fmt.Println(texto)
+fmt.Println(numero)
+fmt.Println(metro)
+fmt.Println(eFeminino)
+
