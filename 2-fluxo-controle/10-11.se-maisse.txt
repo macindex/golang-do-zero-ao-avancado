@@ -1,0 +1,150 @@
+func main {
+    salario := 999.00
+    var salarioMaisBonus float32
+
+    salarioMaisBonus = salario
+
+    if salario < 1000 {
+        salarioMaisBonus = (salarioMaisBonus + 100)
+    }
+
+    fmt.Println("Salário: ", salarioMaisBonus)
+}
+
+Em Go, o if (estrutura condicional) é o coração da tomada de decisão. 
+Embora a sintaxe pareça familiar para quem vem de outras linguagens C-family, o 
+Go introduz regras estritas para garantir que o código seja legível, seguro e menos 
+propenso a erros comuns.
+
+Aqui está uma análise aprofundada sobre como o if funciona:
+
+1. Sintaxe Básica (Sem Parênteses)
+A primeira coisa que você notará é que não se usa parênteses ao redor da condição 
+em Go (a menos que seja para precedência matemática). No entanto, as chaves {} são 
+obrigatórias, mesmo que haja apenas uma linha de código.
+
+idade := 18
+
+if idade >= 18 {
+    fmt.Println("Pode dirigir")
+} else {
+    fmt.Println("Aguarde mais um pouco")
+}
+
+2. O Comando de Inicialização (If com Statement)
+Esta é uma das funcionalidades mais poderosas e elegantes do Go. Você pode 
+declarar e inicializar uma variável diretamente na linha do if. O escopo dessa 
+variável fica restrito apenas ao bloco do if e seus respectivos else.
+
+// tenta converter uma string para número e já testa o erro
+if num, err := strconv.Atoi("123"); err == nil {
+    fmt.Println("Sucesso:", num)
+} else {
+    fmt.Println("Erro na conversão:", err)
+    // 'num' também está disponível aqui, mas geralmente é o 'zero value'
+}
+// fmt.Println(num) // ERRO: 'num' não existe mais aqui fora!
+
+Vantagem: Isso mantém o seu código limpo, evitando que variáveis temporárias 
+(como erros ou índices) "poluam" o restante da função.
+
+3. Ausência de "Truthiness"
+Em linguagens como JavaScript ou Python, você pode fazer if (minhaLista) para 
+checar se ela está vazia. Em Go, isso é proibido. A condição de um if deve 
+obrigatoriamente resultar em um tipo booleano (true ou false).
+
+nome := ""
+
+// if nome { ... } // ERRO: não é um booleano
+if nome != "" {   // CORRETO: comparação explícita
+    fmt.Println("Nome preenchido")
+}
+
+4. Encadeamento (Else If)
+O encadeamento funciona de forma padrão, mas Go incentiva o uso de switch se você 
+tiver muitas condições, para melhorar a legibilidade.
+
+nota := 85
+
+if nota >= 90 {
+    fmt.Println("A")
+} else if nota >= 80 {
+    fmt.Println("B")
+} else {
+    fmt.Println("C")
+}
+
+
+5. Estilo "Happy Path" (Caminho Feliz)
+A filosofia de design do Go desencoraja o uso excessivo de else e o aninhamento 
+profundo de código (o famoso "código em formato de pirâmide").
+
+A recomendação é usar Early Returns (retornos antecipados). Se algo deu errado, 
+você trata o erro e sai da função, deixando o fluxo principal ("Happy Path") 
+sempre alinhado à esquerda.
+
+Exemplo de código ruim (Aninhado):
+
+if err == nil {
+    if user != nil {
+        // código principal aqui
+    } else {
+        return errors.New("não encontrado")
+    }
+} else {
+    return err
+}
+
+Exemplo Idiomático (Estilo Go):
+
+if err != nil {
+    return err
+}
+if user == nil {
+    return errors.New("não encontrado")
+}
+// Happy path continua aqui embaixo, sem aninhamento
+
+6. Operador Ternário?
+É importante notar: Go não possui operador ternário (condicao ? a : b). 
+Os criadores da linguagem decidiram que o if tradicional é mais claro e evita 
+expressões excessivamente complexas em uma única linha.
+
+Resumo de Boas Práticas
+Use o comando de inicialização sempre que a variável for usada apenas para a 
+checagem.
+
+Mantenha o "Happy Path" alinhado à esquerda.
+
+Não use parênteses na condição (o compilador removerá se você usar ferramentas de formatação como o gofmt).
+
+------------------------------------------------------------------------------
+
+func main {
+    salario := 1000.00
+    var salarioMaisBonus float32
+
+    salarioMaisBonus = salario
+
+    if salario <= 1000 {
+        salarioMaisBonus = (salarioMaisBonus + 100)
+    }
+
+    fmt.Println("Salário: ", salarioMaisBonus)
+}
+
+
+func main {
+    var eCarro bool = false
+    var valorDoAutomovel = 1000
+
+    salarioMaisBonus = salario
+
+    if eCarro {
+        valorDoAutomovel = valorDoAutomovel + 55.5
+    }
+
+    fmt.Println("Valor final: ", valorDoAutomovel)
+}
+
+
