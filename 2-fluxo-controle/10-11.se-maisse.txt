@@ -147,4 +147,48 @@ func main {
     fmt.Println("Valor final: ", valorDoAutomovel)
 }
 
+func main {
+    var eCarro bool = false
+    var valorDoAutomovel = 1000
+
+    salarioMaisBonus = salario
+
+    if eCarro {
+        valorDoAutomovel = valorDoAutomovel + 55.5
+    }
+
+    if !eCarro {
+        valorDoAutomovel = valorDoAutomovel + 20.5
+    }
+
+    fmt.Println("Valor final: ", valorDoAutomovel)
+}
+
+func main {
+    var eCarro bool = false
+    var valorDoAutomovel = 1000
+
+    salarioMaisBonus = salario
+
+    if eCarro {
+        valorDoAutomovel = valorDoAutomovel + 55.5
+    } else !eCarro {
+        valorDoAutomovel = valorDoAutomovel + 20.5
+    }
+
+    fmt.Println("Valor final: ", valorDoAutomovel)
+}
+
+func main {
+    salario := 1000.00
+ 
+    if salario < 1000.00 {
+        salario -= (salario * 0.08)
+    } else if salario <= 1200.00 {
+        salario -= (salario * 0.10)
+    } else {
+        salario -= (salario * 0.15)
+    }
+    fmt.Println("Salário final: ", salario)
+}
 
