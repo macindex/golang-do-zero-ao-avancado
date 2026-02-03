@@ -192,3 +192,46 @@ func main {
     fmt.Println("Salário final: ", salario)
 }
 
+func main {
+    salario := 1000.00
+ 
+    if salario < 1000.00 {
+        salario -= (salario * 0.08)
+    } else if salario <= 1200.00 {
+        salario -= (salario * 0.10)
+    } else if salario <= 5000.00 {
+        salario -= (salario * 0.20)
+    }
+     else {
+        salario -= (salario * 0.15)
+    }
+    fmt.Println("Salário final: ", salario)
+}
+
+func main {
+    salario := 1000.00
+    
+    if salario < 1000.00 || salario > 500 {
+        salario -= (salario * 0.08)
+    } else if salario <= 1200.00 {
+        salario -= (salario * 0.10)
+    } else {
+        salario -= (salario * 0.15)
+    }
+    fmt.Println("Salário final: ", salario)
+}
+
+func main {
+    salario := 1000.00
+    tipo := "CLT"
+
+    if salario < 1000.00 && tipo == "CLT" {
+        salario -= (salario * 0.08)
+    } else if salario <= 1000.00 && tipo == "PJ" {
+        salario -= (salario * 0.05)
+    } else {
+        salario -= (salario * 0.15)
+    }
+    fmt.Println("Salário final: ", salario)
+}
+
