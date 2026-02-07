@@ -1,0 +1,136 @@
+Em Go, a abordagem para laços de repetição é única e 
+minimalista: a linguagem não possui uma palavra-chave 
+while. Em vez disso, o for é sobrecarregado para assumir 
+todas as formas de iteração, garantindo um código mais 
+limpo e padronizado.
+
+Aqui está a explicação detalhada sobre como implementar 
+essas estruturas:
+
+1. O "While" em Go
+Embora a palavra-chave while não exista, você implementa 
+a funcionalidade de um laço baseado em condição utilizando 
+o for com apenas um componente (a condição de parada).
+
+Sintaxe: Ao omitir a inicialização e o pós-processamento 
+do for clássico, ele funciona exatamente como um while 
+de outras linguagens.
+
+Comportamento: O bloco de código é executado repetidamente 
+enquanto a condição for verdadeira.
+
+saldo := 100
+valorSaque := 30
+
+// Equivalente ao "while saldo >= valorSaque"
+for saldo >= valorSaque {
+    saldo -= valorSaque
+    fmt.Printf("Saque realizado. Saldo restante: %d\n", saldo)
+}
+
+Em Go, a abordagem para laços de repetição é única e minimalista: a linguagem não possui uma palavra-chave while. Em vez disso, o for é sobrecarregado para assumir todas as formas de iteração, garantindo um código mais limpo e padronizado.Aqui está a explicação detalhada sobre como implementar essas estruturas:1. O "While" em GoEmbora a palavra-chave while não exista, você implementa a funcionalidade de um laço baseado em condição utilizando o for com apenas um componente (a condição de parada).Sintaxe: Ao omitir a inicialização e o pós-processamento do for clássico, ele funciona exatamente como um while de outras linguagens.Comportamento: O bloco de código é executado repetidamente enquanto a condição for verdadeira.Gosaldo := 100
+valorSaque := 30
+
+// Equivalente ao "while saldo >= valorSaque"
+for saldo >= valorSaque {
+    saldo -= valorSaque
+    fmt.Printf("Saque realizado. Saldo restante: %d\n", saldo)
+}
+2. For Aninhado (Nested Loops)O aninhamento ocorre quando 
+você coloca um laço for dentro de outro. 
+Essa estrutura é comum para percorrer matrizes ou processar 
+combinações de dados.
+Funcionamento: Para cada única iteração do laço externo, 
+o laço interno é executado por completo.
+Complexidade: É importante ter cautela com a performance 
+(O(n^2)), especialmente em sistemas bancários de alta 
+performance onde o processamento de grandes volumes de 
+dados deve ser otimizado.
+Exemplo: Processando múltiplas faturas de diferentes clientes
+
+clientes := []string{"Ana", "Bruno"}
+faturas := []int{150, 200, 350}
+
+for _, cliente := range clientes { // Laço Externo
+    fmt.Printf("Processando cliente: %s\n", cliente)
+    
+    for _, valor := range faturas { // Laço Interno
+        fmt.Printf(" - Gerando boleto de R$ %d\n", valor)
+    }
+}
+
+3. Controle em Laços Aninhados: Labels (Rótulos)
+Um desafio comum em laços aninhados é como interromper o 
+laço externo a partir do interno. 
+Em Go, isso é resolvido com Labels.
+
+O Problema: Um break simples dentro do laço interno 
+encerraria apenas ele mesmo.
+
+A Solução: Você define um rótulo antes do laço externo 
+e chama break ou continue referenciando esse rótulo.
+
+Processamento:
+for i := 0; i < 10; i++ {
+    for j := 0; j < 10; j++ {
+        if i*j > 50 {
+            fmt.Println("Limite de segurança atingido.")
+            break Processamento // Interrompe TUDO, inclusive o laço externo
+        }
+    }
+}
+
+4. Boas Práticas e Filosofia
+Mantenha Simples: Evite aninhamentos profundos 
+(mais de 2 níveis); se necessário, extraia o laço interno 
+para uma função separada para manter a manutenibilidade.
+
+Caminho Feliz (Happy Path): Utilize continue para ignorar 
+iterações inválidas precocemente, mantendo a lógica principal 
+do laço com menos indentação.
+
+Tradução de Requisitos: Ao traduzir requisitos de design 
+para código, escolha o tipo de for que melhor represente 
+a intenção do negócio, priorizando sempre um código 
+funcional e escalável.
+
+-
+
+func main(){
+    texto := "palavra"
+    fmt.Println("Quantidade: ", len(texto))
+    for i:= 0; i < len(texto); i++ {
+        if string(texto[i]) == "r"{
+            continue
+        }
+        fmt.Println(string(texto[i]))
+    } 
+}
+
+func main(){
+    texto := "palavra"
+    fmt.Println("Quantidade: ", len(texto))
+    tamanho := len(texto);
+    i := 0
+    for i < tamanho {
+        if string(texto[i]) == "r"{
+            continue
+        }
+        fmt.Println(string(texto[i]))
+        i++
+    } 
+}
+
+FOR 
+TABUADA 
+
+func main(){
+    for numBase := 1; numBase <= 10; numBase++{
+        for multiplicado := 1; multiplicado <= 10; multiplicado++{
+            fmt.Println(numBase, " x ", multiplicado, " = ", numBase*multiplicado)
+        }
+    }
+}
+
+
+
