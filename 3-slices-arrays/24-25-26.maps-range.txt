@@ -1,0 +1,82 @@
+Se os Slices são as listas ordenadas do Go, os Maps são 
+as ferramentas de busca ultra-rápida. 
+Eles implementam o que conhecemos como Tabelas de Hash 
+(Hash Tables).
+
+Aqui está um mergulho profundo em como eles funcionam e 
+como o operador range interage com essas estruturas.
+
+1. Maps: A Estrutura de Chave-Valor
+Um Map é uma referência a uma tabela de espalhamento. 
+Diferente dos arrays, onde o índice é sempre um inteiro, 
+em um Map a chave pode ser qualquer tipo que seja 
+comparável (strings, números, booleanos e até ponteiros ou 
+structs simples).
+
+Anatomia de um Map
+Internamente, o Go organiza o map em buckets (baldes). 
+Quando você insere uma chave, o Go gera um hash dessa 
+chave para decidir em qual bucket o valor deve morar.
+
+Declaração: m := make(map[string]int)
+
+Zero Value: O valor zero de um map é nil. Atenção: 
+Tentar escrever em um map nil causa um panic. 
+Sempre use make ou um literal.
+
+O Idioma "Comma Ok"
+Como saber se uma chave não existe ou se o valor dela é 
+simplesmente zero? O Go resolve isso com um retorno duplo:
+
+valor, ok := meuMap["chave"]
+if !ok {
+    fmt.Println("Chave não encontrada!")
+}
+
+2. O Operador range
+O range é o "canivete suíço" para iterar sobre estruturas 
+de dados. Ele se comporta de forma diferente dependendo 
+do que está percorrendo.
+
+No Slice/Array
+Retorna o índice e a cópia do valor.
+
+for i, v := range meuSlice {
+    // i é o índice, v é o valor
+}
+
+No Map
+Retorna a chave e o valor.
+
+for k, v := range meuMap {
+    // k é a chave, v é o valor
+}
+
+3. Comportamentos "Peculiares" (Nível Sênior)
+Existem dois detalhes sobre Maps e Range que costumam pegar 
+iniciantes de surpresa:
+A. Ordem Aleatória (Randomização)O Go não garante a ordem 
+de iteração de um Map. Na verdade, os engenheiros do Go 
+implementaram uma semente aleatória no range de maps 
+para que, toda vez que você rode o loop, a ordem possa 
+ser diferente. Isso serve para evitar que programadores 
+dependam de uma ordem que é meramente acidental na implementação 
+da hash table.
+
+B. O Loop usa Cópia, não Referência
+Este é o erro mais comum em Go. A variável de valor no 
+range é uma instância única que é sobrescrita a cada 
+iteração.
+Go
+for _, v := range meuSlice {
+    // v é uma cópia. Alterar v não altera o slice original.
+}
+
+Comparação: Range em Slices vs Maps
+
+Estrutura       Primeiro Retorno        Segundo Retorno     Ordem Garantida?
+Slice/Array     Índice (int)            Valor (cópia)       Sim (sequencial)
+Map             Chave (type)            Valor (cópia)       Não (caótica)
+String          Índice (byte)           Runa (rune/int32)   Sim (sequencial)
+
+
