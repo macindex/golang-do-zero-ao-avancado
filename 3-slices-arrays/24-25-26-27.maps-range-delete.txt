@@ -86,6 +86,25 @@ Mg   SP
 -------------------------------------------------------
 MAPS NA PRÁTICA 
 
+//Modo de criação com os valores 
+func main() {
+    m := map[string]int{"sp": 10000000, "cg": 9000000}
+    fmt.Println(m)
+}
+
+
+//Modo de criação com map vazio 
+func main() {
+    m := make(map[string]int)
+    m[sp] = 10000000
+    m[cg] = 9000000
+
+    val, existe := m["rj"]
+    
+    fmt.Println(m)
+}
+
+
 func main() {
     m := make(map[string]int)
     m["sp"] = 10000000
@@ -108,10 +127,10 @@ func main() {
     m := make(map[string]int)
     m["sp"] = 10000000
     m["cg"] = 90000000
-    m["pe"] = 70000000
+    m["re"] = 70000000
 
     for chave, valor := range m {
-        fmt.Println("Cidde", chave "H: ", valor)
+        fmt.Println("Cidade", chave "H: ", valor)
     }
 }
 
