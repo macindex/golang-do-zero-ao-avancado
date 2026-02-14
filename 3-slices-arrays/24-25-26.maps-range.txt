@@ -92,7 +92,7 @@ func main() {
     m["cg"] = 90000000
     m["pe"] = 70000000
 
-    valor, existe := m["rj"]
+    valor, foiEncontrado := m["rj"]
     if foiEncontrado {
         fmt.Println(valor)
     } else {
@@ -100,3 +100,19 @@ func main() {
     }
     fmt.Println(m)
 }
+
+--------------------------------------------------------
+RANGE 
+
+func main() {
+    m := make(map[string]int)
+    m["sp"] = 10000000
+    m["cg"] = 90000000
+    m["pe"] = 70000000
+
+    for chave, valor := range m {
+        fmt.Println("Cidde", chave "H: ", valor)
+    }
+}
+
+
