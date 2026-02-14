@@ -79,4 +79,24 @@ Slice/Array     Índice (int)            Valor (cópia)       Sim (sequencial)
 Map             Chave (type)            Valor (cópia)       Não (caótica)
 String          Índice (byte)           Runa (rune/int32)   Sim (sequencial)
 
+-
+900k 10b 500 2m 500k 200k
+Mg   SP 
 
+-------------------------------------------------------
+MAPS NA PRÁTICA 
+
+func main() {
+    m := make(map[string]int)
+    m["sp"] = 10000000
+    m["cg"] = 90000000
+    m["pe"] = 70000000
+
+    valor, existe := m["rj"]
+    if foiEncontrado {
+        fmt.Println(valor)
+    } else {
+        fmt.Println("Chave não existe")
+    }
+    fmt.Println(m)
+}
